@@ -3,6 +3,7 @@ const ctx = canvas.getContext("2d"); //canvas의 그림 그리기 기능을 가�
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
@@ -10,6 +11,10 @@ const CANVAS_SIZE = 700;
 //canvas의 그리기 기능 이용시 크기 설정 필요
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
+
+//이미지 저장시 기본 배경이 투명으로 처리되는거 방지용
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
 ctx.strokeStyle = INITIAL_COLOR; //선의 기본 색상
 ctx.fillStyle = INITIAL_COLOR; //면의 기본 색상
@@ -83,6 +88,20 @@ function handleCanvasClick() {
   }
 }
 
+//================== 이미지 저장 관련 이벤트 ============================
+
+function handleCM(event) {
+  event.preventDefault();
+}
+
+function handleSaveClick() {
+  const image = canvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "PaintJS[🎨]";
+  link.click();
+}
+
 //================== 캔버스 관련 이벤트 리스너 추가 ============================
 if (canvas) {
   //canvas가 존재하는 경우
@@ -92,6 +111,7 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleCM); //이미지 저장 관련
 }
 
 //================== 색상 변경 관련 이벤트 리스너 추가 ============================
@@ -115,4 +135,10 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+//================== 이미지 저장 관련 이벤트 리스너 추가 ============================
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", handleSaveClick);
 }
