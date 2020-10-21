@@ -4,11 +4,16 @@ const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 
-//canvas의 그리기 기능 이용시 크기 설정 필요
-canvas.width = 700;
-canvas.height = 700;
+const INITIAL_COLOR = "#2c2c2c";
+const CANVAS_SIZE = 700;
 
-ctx.strokeStyle = "#2c2c2c"; //선의 기본 색상
+//canvas의 그리기 기능 이용시 크기 설정 필요
+canvas.width = CANVAS_SIZE;
+canvas.height = CANVAS_SIZE;
+
+ctx.strokeStyle = INITIAL_COLOR; //선의 기본 색상
+ctx.fillStyle = INITIAL_COLOR; //면의 기본 색상
+
 ctx.lineWidth = 2.5; //선의 굵기
 
 let painting = false; //그리기
@@ -43,22 +48,23 @@ function onMouseMove(event) {
   }
 }
 
-//================== 색상 변경 ============================
+//================== 색상 변경 이벤트 ============================
 
 function handleColorClick(event) {
   //console.log(event.target.style);
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color;
+  ctx.fillStyle = color;
 }
 
-//================== 사이즈 변경 ============================
+//================== 사이즈 변경 이벤트 ============================
 
 function handleRangeChange(event) {
   const size = event.target.value;
   ctx.lineWidth = size;
 }
 
-//================== 모드 변경 ============================
+//================== 모드 변경 이벤트 ============================
 
 function handleModeClick() {
   if (filling === true) {
@@ -70,6 +76,13 @@ function handleModeClick() {
   }
 }
 
+//================== 채우기 이벤트 ============================
+function handleCanvasClick() {
+  if (filling) {
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  }
+}
+
 //================== 캔버스 관련 이벤트 리스너 추가 ============================
 if (canvas) {
   //canvas가 존재하는 경우
@@ -78,6 +91,7 @@ if (canvas) {
   canvas.addEventListener("mousedown", startPainting); //마우스 왼쪽 버튼을 누르고 있는 상태
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
+  canvas.addEventListener("click", handleCanvasClick);
 }
 
 //================== 색상 변경 관련 이벤트 리스너 추가 ============================
