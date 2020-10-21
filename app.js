@@ -91,14 +91,17 @@ function handleCanvasClick() {
 //================== 이미지 저장 관련 이벤트 ============================
 
 function handleCM(event) {
-  event.preventDefault();
+  event.preventDefault(); //이벤트 생성 방지 - 마우스 우클릭 목적
 }
 
 function handleSaveClick() {
-  const image = canvas.toDataURL();
-  const link = document.createElement("a");
+  const image = canvas.toDataURL(); //이미지로 변환함과 동시에 그에 해당하는 url 반환
+  const link = document.createElement("a"); //가상의 <a> 태그 생성
   link.href = image;
-  link.download = "PaintJS[🎨]";
+  //<a> 태그에 download 속성이 존재시 링크가 가리키는 파일을 다운로드 한다.
+  //저장할 파일의 이름, 확장자 변경 가능
+  link.download = "PaintJS[🎨].jpg";
+  //<a> 태그를 가상으로 클릭함으로써 이미지를 다운로드 하게 한다.
   link.click();
 }
 
