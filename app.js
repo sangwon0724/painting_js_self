@@ -1,8 +1,12 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d"); //canvas의 그림 그리기 기능을 가져옴
 
-ctx.strokeStyle = "#2c2c2c";
-ctx.lineWidth = 2.5;
+//canvas의 그리기 기능 이용시 크기 설정 필요
+canvas.width = 700;
+canvas.height = 700;
+
+ctx.strokeStyle = "#2c2c2c"; //선의 기본 색상
+ctx.lineWidth = 2.5; //선의 굵기
 let painting = false;
 
 function stopPainting() {
